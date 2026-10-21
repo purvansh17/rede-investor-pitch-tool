@@ -8,7 +8,7 @@ client = genai.Client(api_key="AQ.Ab8RN6LR56EGrbYD2-J_utcq41EzD0sVOq_sO5xldGebUF
 
 st.set_page_config(page_title="NYU REDE - Deal Screener", layout="centered")
 
-st.title("🏢 REDE Session 6: Deal Screener")
+st.title("🏢 REDE : Deal Screener")
 st.markdown("Submit your preliminary deal metrics below. The AI will audit your math, check for syllabus rule violations, and prepare you for LP pushback.")
 
 # --- THE FORM ---
@@ -47,7 +47,7 @@ if submitted:
 
         # The "Secret Sauce" Prompt
         system_prompt = """
-        You are a tough Private Equity Investor and Grader for Professor Chernoff's NYU Real Estate course.
+        You are a Private Equity Investor and Grader for Professor Chernoff's NYU Real Estate course.
         Review the provided deal data strictly based on these course rules:
         1. Deal size should be between $500k and $8M.
         2. No ground-up construction (if reno costs exceed purchase price, flag it).
@@ -55,19 +55,23 @@ if submitted:
         4. Standard course assumption is a maximum 75% LTV mortgage.
         
         Output your response clearly with these exactly headers:
-        ### 🚨 Course Rule Checks
+        ### Course Rule Checks
         [Pass/Fail based on the rules]
         
-        ### 📊 The Math Audit
-        [Calculate total cost, going-in cap rate, LTV, and check if Loan + Equity = Total Cost. Be brutal if math is wrong.]
-        
-        ### 🦈 Investor Pushback (Pitch Prep)
-        [Ask 2 tough, specific questions about their deal that a shark investor would ask.]
+        ### The Math Audit
+        [Calculate total cost, going-in cap rate, LTV, and check if Loan + Equity = Total Cost. Be direct if math is wrong.]
+
+        -- Note: Make sure to format your response in Markdown for clarity. Use bullet points, bolding, and headings as appropriate. Especially remember using the dollar sign messes up with Markdown formatting, so make sure it is formatted properly.
         """
+
+        # additional questions
+        
+        # ### Investor Pushback (Pitch Prep)
+        # [Ask 2 tough, specific questions about their deal that a shark investor would ask.]
 
         try:
             response = client.models.generate_content(
-                model="gemini-3.6-flash",
+                model="gemini-3.5-flash-lite",
                 contents=types.Content(
                     role="user",
                     parts=[
@@ -79,7 +83,7 @@ if submitted:
                 config=types.GenerateContentConfig(temperature=0.2),
             )
             
-            st.success("Analysis Complete!")
+            st.success("Analysis Complete! ✨")
             st.markdown(response.text)
             
         except Exception as e:
