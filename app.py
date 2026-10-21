@@ -1,9 +1,15 @@
 import streamlit as st
 from google import genai
 from google.genai import types
+import os
 
-# Set GEMINI_API_KEY in the environment before starting Streamlit.
-client = genai.Client(api_key=GEMINI_API_KEY)
+# Configure GEMINI_API_KEY in Streamlit Cloud secrets or the local environment.
+gemini_api_key = st.secrets.get("GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY")
+if not gemini_api_key:
+    st.error("GEMINI_API_KEY is not configured. Add it to Streamlit secrets.")
+    st.stop()
+
+client = genai.Client(api_key=gemini_api_key)
 
 
 st.set_page_config(page_title="NYU REDE - Deal Screener", layout="centered")
