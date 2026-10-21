@@ -3,7 +3,7 @@ from google import genai
 from google.genai import types
 
 # Set GEMINI_API_KEY in the environment before starting Streamlit.
-client = genai.Client(api_key="AQ.Ab8RN6LR56EGrbYD2-J_utcq41EzD0sVOq_sO5xldGebUF92HA")
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 st.set_page_config(page_title="NYU REDE - Deal Screener", layout="centered")
